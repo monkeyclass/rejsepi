@@ -1,0 +1,2 @@
+api:
+  url: http://secret-url-from-rejseplan/bin/rest.exe/departureBoard?id=8600636&useBus=0
