@@ -7,6 +7,7 @@ class RejseApi:
     def __init__(self,config):
         with open(config, 'r') as ymlfile:
             self.cfg = yaml.safe_load(ymlfile)
+
         try:
             self.api_url = self.cfg['api']['url']
         except:
@@ -33,9 +34,9 @@ class RejseApi:
         root = ElementTree.fromstring(request.text)
         
         for child in root:
-            #print(child.tag, child.attrib)
-            print('waiting')
+            print(child.tag, child.attrib)
             try:
+                print('waiting for', self.api_requestwait, 'seconds...')
                 time.sleep(self.api_requestwait)
             except:
                 raise ValueError("'requestwait' for request interval must be set for get_departures method in the config file")
