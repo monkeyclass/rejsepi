@@ -44,18 +44,26 @@ class RejseApi:
         self.get_departures()
         for child in self.root[:self.display_lines]:
             a = child.attrib
+
+            # create the transportation type string
             try:
                 transtype = a['type']
             except:
                 transtype = 'U'
+            
+            # creating the line info
             try:
                 line = a['line']
             except:
                 line = 'unknown line'
+            
+            # creating the direction info
             try:
                 direction = a['direction']
             except:
                 direction = 'unknown direction'
+
+            # creating the track information
             try:
                 track = a['rtTrack']
             except:
@@ -63,6 +71,8 @@ class RejseApi:
                     track = a['track']
                 except:
                     track = 'track unkown'
+
+            # creating the departure in time string
             try:
                 depart_time_str = a['rtTime']
             except:
@@ -70,6 +80,7 @@ class RejseApi:
                     depart_time_str = a['time']
                 except:
                     depart_time_str = ''
+            
             try:
                 depart_date_str = a['rtDate']
             except:
@@ -77,24 +88,36 @@ class RejseApi:
                     depart_date_str = a['date']
                 except:
                     depart_date_str = ''
+            
             try:
+                # converting string dates to python dates
                 depart_datetime_str = depart_date_str + ' ' + depart_time_str
                 depart_datetime = datetime.strptime(depart_datetime_str, '%d.%m.%y %H:%M')
+
+                # getting difference between now and departure
                 current_time = datetime.now()
                 total_seconds = (depart_datetime - current_time).total_seconds()
+
+                # creates readable dateparts of either:
+                #  > 1 hour
                 if total_seconds // 3600 > 0:
                     hours = total_seconds // 3600
                     minutes = total_seconds % 3600 // 60
                     depart_in = str(hours) + 'hour' + str(minutes) + ' min.'
+                # > 1 minute
                 elif total_seconds // 60 > 0:
                     minutes = total_seconds // 60
                     depart_in = str(int(minutes)) + ' min.'
+                # > 30 seconds
                 elif total_seconds > 30:
                     depart_in = '½ min.'
+                # < 30 seconds
                 else:
                     depart_in = '0 min.'
             except:
                 depart_in = 'no time info'
+            
+            # printing the line to command line
             if transtype == 'S':
                 print('Line', line, '>', direction, 'track', track, 'in', depart_in)
         try:
