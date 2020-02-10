@@ -1,9 +1,8 @@
-import time
 from rejseplan import RejseApi
+
 def main(config):
+    capi = RejseApi(config)
     while True:
-        RejseApi(config).get_departures()
-        print('waiting')
-        time.sleep(20)
+        capi.get_departures()
 
 main('config.yaml')
