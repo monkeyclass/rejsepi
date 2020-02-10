@@ -103,11 +103,11 @@ class RejseApi:
                 if total_seconds // 3600 > 0:
                     hours = total_seconds // 3600
                     minutes = total_seconds % 3600 // 60
-                    depart_in = str(hours) + 'hour' + str(minutes) + ' min.'
+                    depart_in = str(int(hours)).zfill(2) + ' hour ' + str(int(minutes)).zfill(2) + ' min.'
                 # > 1 minute
                 elif total_seconds // 60 > 0:
                     minutes = total_seconds // 60
-                    depart_in = str(int(minutes)) + ' min.'
+                    depart_in = str(int(minutes)).zfill(2) + ' min.'
                 # > 30 seconds
                 elif total_seconds > 30:
                     depart_in = '½ min.'
@@ -119,7 +119,7 @@ class RejseApi:
             
             # printing the line to command line
             if transtype == 'S':
-                print('Line', line, '>', direction, 'track', track, 'in', depart_in)
+                print('Line', line, '>', f"{direction:<15}", 'track', track, 'in', depart_in)
         try:
             print('waiting for', self.api_requestwait, 'seconds...')
             time.sleep(self.api_requestwait)
