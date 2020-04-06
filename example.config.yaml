@@ -1,5 +1,8 @@
 api:
-  url: http://secret-url-from-rejseplan/bin/rest.exe/departureBoard?id=8600636&useBus=0
-  params:
-    id: stationid_int
-    useBus: 1/0
+  requestwait: 20 # wait time in seconds between sending requests to the api
+  url: http://<secret-url-from-rejseplan>/bin/rest.exe/departureBoard # url to api from rejseplan, mandatory
+  params: 
+    id: 1111111 # stationid for the station
+    useBus: 0 # diplay bus departures from station 0/1
+display:
+  lines: 4 # number of lines to display in console
