@@ -5,8 +5,8 @@ from datetime import datetime
 from xml.etree import ElementTree
 
 class RejseApi:
-    def __init__(self,config):
-        with open(config, 'r') as ymlfile:
+    def __init__(self,config_file):
+        with open(config_file, 'r') as ymlfile:
             self.cfg = yaml.safe_load(ymlfile)
         try:
             self.api_url = self.cfg['api']['url']
@@ -33,16 +33,17 @@ class RejseApi:
             raise ValueError('get_departures methods needs parameters set in the config file')
 
         request = requests.get(url = self.api_url, params = self.api_params)
-        self.root = ElementTree.fromstring(request.text)
+        root = ElementTree.fromstring(request.text)
         
+        return root
         #for child in root:
         #    print(child.tag, child.attrib)
         
     def print_departures(self):
         """ Built for displays and intended to print to these
             using specific parameters set in the config file """
-        self.get_departures()
-        for child in self.root[:self.display_lines]:
+        root = self.get_departures()
+        for child in root[:self.display_lines]:
             a = child.attrib
 
             # create the transportation type string
